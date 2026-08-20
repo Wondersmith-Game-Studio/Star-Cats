@@ -1,0 +1,12 @@
+//////////////////////PROJECT NOTES///////////////////////
+
+animations would be tied to actions.
+
+create sprites
+- a few ores - a list of 5 to start
+- Maybe some backgrounds
+- Some upgrade icons
+- some buildings. We could add buildings in the background as you purchase upgrades and "colonize" the planet
+
+Save logic
+-3 saves -> create logic using switch conditional statement for save 1, 2, or 3

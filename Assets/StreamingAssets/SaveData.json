@@ -1,0 +1,7 @@
+{
+    "currencies": [
+    { "id": "SpaceRock", "amount": 0 },
+    { "id": "SpaceCopper", "amount": 0},
+    { "id": "SpaceIron", "amount": 0}
+    ]
+}

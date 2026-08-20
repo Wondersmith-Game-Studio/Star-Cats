@@ -1,0 +1,32 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/UI%20Toolkit/MainMenu.uss?fileID=7433441132597879392&amp;guid=bf121dee6a5a4494b8ba8c79c6735f8d&amp;type=3#MainMenu"/>
+    <ui:VisualElement name="MainMenuParent" class="MainMenuParent" style="flex-direction: row; flex-wrap: nowrap; background-color: rgb(0, 0, 0);">
+        <ui:VisualElement name="ButtonContainer" class="ButtonContainer" style="background-color: rgba(0, 0, 0, 0);">
+            <ui:Button text="Load Game" name="LoadGame" data-source="project://database/Assets/Settings/InputSystem_Actions.inputactions?fileID=3001919216989983466&amp;guid=2bcd2660ca9b64942af0de543d8d7100&amp;type=3#UI/Click" class="MainMenuButton"/>
+            <ui:Button text="New Game" name="NewGame" data-source="project://database/Assets/Settings/InputSystem_Actions.inputactions?fileID=3001919216989983466&amp;guid=2bcd2660ca9b64942af0de543d8d7100&amp;type=3#UI/Click" class="MainMenuButton"/>
+            <ui:Button text="Settings" name="Settings" data-source="project://database/Assets/Settings/InputSystem_Actions.inputactions?fileID=3001919216989983466&amp;guid=2bcd2660ca9b64942af0de543d8d7100&amp;type=3#UI/Click" class="MainMenuButton"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="MainMenuVisual" class="MainMenuVisual" style="background-color: rgba(0, 0, 0, 0);">
+            <ui:VisualElement name="MainMenuImage" class="MainMenuImage" style="align-items: center; justify-content: center; background-image: url(&quot;project://database/Assets/Art/flux_krea_00002_.png?fileID=2800000&amp;guid=ca92a6bc7de4665468ea173f69e5ee69&amp;type=3#flux_krea_00002_&quot;); position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0); translate: 0% 0%; -unity-slice-left: 0; -unity-slice-top: 0; -unity-slice-right: 0; -unity-slice-bottom: 0;">
+                <ui:VisualElement name="SaveSelectorContainer" data-source="project://database/Assets/Settings/InputSystem_Actions.inputactions?fileID=3001919216989983466&amp;guid=2bcd2660ca9b64942af0de543d8d7100&amp;type=3#UI/Click" class="SaveSelectorContainer" style="display: none;">
+                    <ui:Button text="Save 1" name="Save1" class="SaveSelector"/>
+                    <ui:Button text="Save 2" name="Save2" class="SaveSelector"/>
+                    <ui:Button text="Save 3" name="Save3" class="SaveSelector"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="NewSaveContainer" data-source="project://database/Assets/Settings/InputSystem_Actions.inputactions?fileID=3001919216989983466&amp;guid=2bcd2660ca9b64942af0de543d8d7100&amp;type=3#UI/Click" class="SaveSelectorContainer" style="display: none;">
+                    <ui:Button text="Save 1" name="NewSave1" class="SaveSelector"/>
+                    <ui:Button text="Save 2" name="NewSave2" class="SaveSelector"/>
+                    <ui:Button text="Save 3" name="NewSave3" class="SaveSelector"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="SettingsContainer" data-source="project://database/Assets/Settings/InputSystem_Actions.inputactions?fileID=3001919216989983466&amp;guid=2bcd2660ca9b64942af0de543d8d7100&amp;type=3#UI/Click" class="SaveSelectorContainer" style="display: flex;">
+                    <ui:Button text="Ur" name="Ur" emoji-fallback-support="false" class="SaveSelector"/>
+                    <ui:Button text="Mom" name="Mom" class="SaveSelector"/>
+                    <ui:Button text="GitRektNerd" name="GitRektNerd" class="SaveSelector"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="TitleContainer" class="TitleContainer">
+                <ui:Label text="Star Cats" class="TitleText" style="position: relative;"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
