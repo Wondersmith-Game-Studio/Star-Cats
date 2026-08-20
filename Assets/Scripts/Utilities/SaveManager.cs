@@ -9,19 +9,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Collections;
-using Newtonsoft;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using UnityEngine;
+
 
 #if UNITY_ANDROID && !UNITY_EDITOR
     using UnityEngine.Networking;
-#endif
-
-//ONLY PERFROM IF COMPILING INSIDE UNITY//
-//FOR EVERY SECTION THIS SNIPPET EXISTS
-
-#if UNITY_5_3_OR_NEWER
-    using UnityEngine;
-#else
-    using System.Text.Json; // Standard .NET
 #endif
 
 /////////////////////////////////////////////////////////////////////////
@@ -35,32 +29,9 @@ namespace Assets.Scripts.Utilities
     //CLASS DEFINITIONS
     ////////////////////////////////////////////////////////////////////
 
-    //CURRENCY CLASS FOR CURRENCIES
-
-    [System.Serializable]
-    public class Currency
-    {
-        public string id = string.Empty;
-        public double amount;
-    }
-
-    //GAMESAVEDATA CLASS FOR DATA TRANSFER OBJECT (DTO)
-
-    [System.Serializable]
-    public class GameSaveData
-    {
-        public List<Currency> currencies;
-
-        public GameSaveData()
-        {
-            currencies = new List<Currency>();
-        }
-    }
-
     //SAVEMANAGER STATIC CLASS FOR SAVE LOGIC
     public static class SaveManager
     {
-
         //Get Save Path Helper
         public static string GetSavePath(string fileName)
         {
@@ -77,7 +48,7 @@ namespace Assets.Scripts.Utilities
                 path = Path.Combine(Directory.GetCurrentDirectory(), fileName);
             #endif
             
-            /////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////
             //DIR VARIABLE DEFINITION
             var dir = Path.GetDirectoryName(path);
 
@@ -89,10 +60,10 @@ namespace Assets.Scripts.Utilities
             return path;  
 
             //END PATH VARIABLE DEFINITION//
-            /////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////
         }
 
-        /////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////
         public static string GetTemplatePath(string fileName)
         {
             #if UNITY_5_3_OR_NEWER
@@ -102,8 +73,12 @@ namespace Assets.Scripts.Utilities
             #endif
         }
 
-        /////////////////////////////////////////////////////////////////////////////////////////////
-        public static void CreateNewSave(string selectedFile, Action<bool> onComplete = null, MonoBehaviour runner = null)
+        /////////////////////////////////////////////////////////////////////
+        public static void CreateNewSave(string selectedFile, Action<bool> onComplete = null
+        #if UNITY_ANDROID && !UNITY_EDITOR
+        , MonoBehaviour runner = null
+        #endif
+        )
         {
             string destinationPath = GetSavePath(selectedFile);
 
@@ -125,7 +100,11 @@ namespace Assets.Scripts.Utilities
                 }
                 catch (Exception ex)
                 {
-                    Debug.LogError($"CreateNewSave failed: {ex.Message}");
+                    #if UNITY_5_3_OR_NEWER
+                        Debug.LogError($"CreateNewSave failed: {ex.Message}");
+                    #else
+                        Console.WriteLine($"CreateNewSave failed: {ex.Message}");
+                    #endif
                     onComplete?.Invoke(false);
                 }
             #endif
@@ -153,86 +132,48 @@ namespace Assets.Scripts.Utilities
                 }
             }
         #endif
-        /////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////
 
         //SAVE METHOD FOR SERIALIZING AND SAVING DATA FROM SESSION STORAGE TO PERSISTENT STORAGE
 
-        public static void Save(string fileName, Dictionary<string, double> currencyDict)
+        public static void Save(string fileName, JsonObject data)
         {
-            //CREATE DATA TRANSFER OBJECT "DATA"
-
-            GameSaveData data = new();
-
-            //FOR EACH KEY-VALUE PAIR (KVP) IN THE CURRENCY DICTIONARY
-
-            foreach (var kvp in currencyDict)
-            {
-                //DATA OBJECT, CURRENCIES PROPERTY
-                //ADD NEW CURRENCY OBJECT, SET THE ID = KVP KEY, AND THE AMOUNT = KVP VALUE
-                data.currencies.Add(new Currency { id = kvp.Key, amount = kvp.Value });
-            }
-
-            //START JSON VARIABLE DEFINITION//
-            string json;
-
-            #if UNITY_5_3_OR_NEWER
-                json = JsonUtility.ToJson(data, true);
-            #else
-                var options = new JsonSerializerOptions { WriteIndented = true, IncludeFields = true };
-                json = JsonSerializer.Serialize(data, options);
-            #endif
-            //END JSON VARIABLE DEFINITION//
-
-            //USE SAVE FILE HELPER TO GET PATH
+            //USE SAVE FILE HELPER FOR PATH
             string path = GetSavePath(fileName);
 
-            //WRITE JSON STRING TO DETERMINED PATH, WRITE USER FEEDBACK
+            //START JSON VARIABLE DEFINITION//
+            var options = new JsonSerializerOptions {WriteIndented = true };
+            string json = data.ToJsonString(options);
+            //END JSON VARIABLE DEFINITION//
+
+            //WRITE JSONOBJECT DATA TO SAVEFILE PATH
             File.WriteAllText(path, json);
-            Console.WriteLine($"Saved to: {path}");
+
+            #if UNITY_5_3_OR_NEWER
+                Debug.Log($"Saved to: {path}");
+            #else
+                Console.WriteLine($"Saved to: {path}");
+            #endif
         }
 
         //LOAD METHOD FOR DESERIALIZING DATA FROM PERSISTENT STORAGE TO SESSION STORAGE
 
-        public static Dictionary<string, double> Load(string fileName)
+        public static JsonObject Load(string fileName)
         {
             string path = GetSavePath(fileName);
+
+            //IF NO SAVE FILE EXISTS RETURN EMPTY OBJECT INSTEAD OF ERROR
+            if (!File.Exists(path))
+                return new JsonObject();
 
             //JSON VARIABLE DEFINITION
             //CONSISTS OF THE CONTENTS OF THE SAVEDATA FILE
             string json = File.ReadAllText(path);
-            //CREATES DATA OBJECT USING GAMESAVEDATA CLASS AND FOLLOWING LOC
-            GameSaveData data;
+            
+            //PARSE CONTENTS INTO MUTABLE JSONOBJECT
+            JsonObject data = JsonNode.Parse(json)?.AsObject() ?? new JsonObject();
 
-            //BEGIN DATA DEFINITION
-            #if UNITY_5_3_OR_NEWER
-                //DATA DTO = GAMESAVEDATA CLASS
-                //FROMJSON DESERIALIZES INTO DTO OBJECT "DATA" USING JSON VAR
-                data = JsonUtility.FromJson<GameSaveData>(json);
-            #else
-                //OPTIONS NECESSARY FOR JSONSERIALIZEROPTIONS
-                var options = new JsonSerializerOptions { IncludeFields = true };
-                //DTO CREATED BY DESERIALIZING USING GAMESAVEDATA
-                data = JsonSerializer.Deserialize<GameSaveData>(json, options);
-            #endif
-
-            //IF RETURNS NULL, CREATE NEW DICT
-            if (data == null || data.currencies == null)
-                return new Dictionary<string, double>();
-
-            //CURRENCYDICT DICTIONARY CREATED BY DESERIALIZING FROM DTO
-            var currencyDict = new Dictionary<string, double>();
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////
-            //ITERATES THROUGH EACH ENTRY
-            foreach (var currency in data.currencies)
-            {
-                //CURRENCY.ID IS KEY, CURRENCY.AMOUNT IS VALUE
-                currencyDict[currency.id] = currency.amount;
-            }
-
-            //RETURNS THE NEW CURRENCY DICTIONARY
-            return currencyDict;
+            return data;
         }
     }
 }

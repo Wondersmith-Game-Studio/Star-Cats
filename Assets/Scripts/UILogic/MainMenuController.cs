@@ -143,15 +143,19 @@ public class MainMenuController : MonoBehaviour
             {
                 Debug.Log("Save1 created successfully.");
                 //refresh the save selector list, close the New Save panel, etc.
+                MainGameController.Data = SaveManager.Load("Save1.json");
                 SwapToGameScreen();
-                SaveManager.Load("Save1.json");
             }
             else
             {
                 Debug.LogError("Failed to create Save1.");
                 //show an error message in the UI
             }
-        });
+        }
+        #if UNITY_ANDROID && !UNITY_EDITOR
+        , runner: this
+        #endif
+        );
     }
     
     private void OnNewSave2Clicked()
@@ -162,15 +166,19 @@ public class MainMenuController : MonoBehaviour
             {
                 Debug.Log("Save2 created successfully.");
                 //refresh the save selector list, close the New Save panel, etc.
+                MainGameController.Data = SaveManager.Load("Save2.json");
                 SwapToGameScreen();
-                SaveManager.Load("Save2.json");
             }
             else
             {
                 Debug.LogError("Failed to create Save2.");
                 //show an error message in the UI
             }
-        });
+        }
+        #if UNITY_ANDROID && !UNITY_EDITOR
+        , runner: this
+        #endif
+        );
     }
 
     private void OnNewSave3Clicked()
@@ -181,35 +189,39 @@ public class MainMenuController : MonoBehaviour
             {
                 Debug.Log("Save3 created successfully.");
                 //refresh the save selector list, close the New Save panel, etc.
+                MainGameController.Data = SaveManager.Load("Save3.json");
                 SwapToGameScreen();
-                SaveManager.Load("Save3.json");
             }
             else
             {
                 Debug.LogError("Failed to create Save3.");
                 //show an error message in the UI
             }
-        });
+        }
+        #if UNITY_ANDROID && !UNITY_EDITOR
+        , runner: this
+        #endif
+        );
     }
 
     private void OnLoadSave1Clicked()
     {
+        MainGameController.Data = SaveManager.Load("Save1.json");
         SwapToGameScreen();
-        SaveManager.Load("Save1.json");
         Debug.Log("Save1 Loaded Successfully!");
     }
 
     private void OnLoadSave2Clicked()
     {
+        MainGameController.Data = SaveManager.Load("Save2.json");
         SwapToGameScreen();
-        SaveManager.Load("Save2.json");
         Debug.Log("Save2 Loaded Successfully!");
     }
 
     private void OnLoadSave3Clicked()
     {
+        MainGameController.Data = SaveManager.Load("Save3.json");
         SwapToGameScreen();
-        SaveManager.Load("Save3.json");
         Debug.Log("Save3 Loaded Successfully!");
     }
 

@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using Assets.Scripts.Utilities;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using JetBrains.Annotations;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 public class MainGameController : MonoBehaviour
@@ -11,14 +14,7 @@ public class MainGameController : MonoBehaviour
     private VisualElement _upgrades;
     private VisualElement _navBar;
 
-    [SerializeField] private GameObject _mainMenuScreen;
+    public static JsonObject Data;
+
     [SerializeField] private GameObject _mainGameScreen;
-
-    private void SwapToGameScreen()
-    {
-        _mainMenuScreen.SetActive(false);
-        _mainGameScreen.SetActive(true);
-    }
-
-    private static ResourceList(currencyDict)
 }
