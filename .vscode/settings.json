@@ -1,9 +1,0 @@
-{
-    "dotrush.roslyn.projectOrSolutionFiles": ["IncrementalGame.slnx"],
-    "files.associations": {
-        "*.uxml": "xml",
-        "*.uss": "css"
-    },
-    "css.lint.unknownProperties": "ignore",
-    "css.lint.vendorPrefix": "ignore"
-}
