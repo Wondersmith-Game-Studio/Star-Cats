@@ -1,0 +1,64 @@
+:root {
+}
+
+.MainGameScreen {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0);
+    flex-basis: 100%;
+    flex-shrink: 1;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.SpaceRockImage {
+    flex-grow: 0;
+    width: 30%;
+    height: 50%;
+    top: 25%;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    transform-origin: center;
+    scale: 1 1;
+    background-image: url("project://database/Assets/MainGameScreen.uss?fileID=7433441132597879392&guid=b54df33fc4d1ca344b6fc19144118466&type=3#MainGameScreen");
+    -unity-background-scale-mode: scale-to-fit;
+    translate: 0% 0%;
+    align-items: center;
+    align-self: center;
+    justify-content: center;
+    flex-shrink: 0;
+    align-content: center;
+    position: absolute;
+}
+
+.MainContainer {
+    width: 100%;
+    height: 80%;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.ResourceList {
+    flex-grow: 1;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 25%;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.Image {
+    width: 50%;
+}
+
+.Upgrades {
+    width: 25%;
+}
+
+.NavBar {
+    flex-grow: 1;
+    height: 20%;
+}
