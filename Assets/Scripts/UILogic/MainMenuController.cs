@@ -143,7 +143,7 @@ public class MainMenuController : MonoBehaviour
             {
                 Debug.Log("Save1 created successfully.");
                 //refresh the save selector list, close the New Save panel, etc.
-                MainGameController.Data = SaveManager.Load("Save1.json");
+                CurrencyManager.Data = SaveManager.Load("Save1.json");
                 SwapToGameScreen();
             }
             else
@@ -166,7 +166,7 @@ public class MainMenuController : MonoBehaviour
             {
                 Debug.Log("Save2 created successfully.");
                 //refresh the save selector list, close the New Save panel, etc.
-                MainGameController.Data = SaveManager.Load("Save2.json");
+                CurrencyManager.Data = SaveManager.Load("Save2.json");
                 SwapToGameScreen();
             }
             else
@@ -189,7 +189,7 @@ public class MainMenuController : MonoBehaviour
             {
                 Debug.Log("Save3 created successfully.");
                 //refresh the save selector list, close the New Save panel, etc.
-                MainGameController.Data = SaveManager.Load("Save3.json");
+                CurrencyManager.Data = SaveManager.Load("Save3.json");
                 SwapToGameScreen();
             }
             else
@@ -206,21 +206,21 @@ public class MainMenuController : MonoBehaviour
 
     private void OnLoadSave1Clicked()
     {
-        MainGameController.Data = SaveManager.Load("Save1.json");
+        CurrencyManager.Data = SaveManager.Load("Save1.json");
         SwapToGameScreen();
         Debug.Log("Save1 Loaded Successfully!");
     }
 
     private void OnLoadSave2Clicked()
     {
-        MainGameController.Data = SaveManager.Load("Save2.json");
+        CurrencyManager.Data = SaveManager.Load("Save2.json");
         SwapToGameScreen();
         Debug.Log("Save2 Loaded Successfully!");
     }
 
     private void OnLoadSave3Clicked()
     {
-        MainGameController.Data = SaveManager.Load("Save3.json");
+        CurrencyManager.Data = SaveManager.Load("Save3.json");
         SwapToGameScreen();
         Debug.Log("Save3 Loaded Successfully!");
     }

@@ -1,0 +1,5 @@
+<ui: UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="ResourceList" class="Resource">
+        <ui:Label name="NameLabel" text="Default Name" picking-mode="Ignore" />
+    </ui:VisualElement>
+</ui:UXML>
