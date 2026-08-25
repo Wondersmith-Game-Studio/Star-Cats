@@ -4,6 +4,7 @@ using Assets.Scripts.Utilities;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using JetBrains.Annotations;
+using System;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 public class MainGameController : MonoBehaviour
@@ -15,6 +16,11 @@ public class MainGameController : MonoBehaviour
     private VisualElement _navBar;
 
     public static JsonObject Data;
+
+    void Start()
+    {
+        Console.WriteLine(Data);
+    }
 
     [SerializeField] private GameObject _mainGameScreen;
 }
