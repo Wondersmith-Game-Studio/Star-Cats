@@ -16,20 +16,4 @@ public class MainGameController : MonoBehaviour
     private VisualElement _navBar;
 
     public static JsonObject Data;
-
-    [SerializeField] private UIDocument MainGameScreen
-
-    private void OnEnable()
-    {
-        var _resourceList = MainGameScreen.ResourceList;
-        
-        if (_resourceList == null) return;
-
-        foreach (var Currency in Data)
-        {
-            VisualElement newItem = 
-        }
-    }
-
-    [SerializeField] private GameObject _mainGameScreen;
 }

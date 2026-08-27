@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Assets.Scripts.Utilities;
 using System;
+using Mono.Cecil.Cil;
+using System.Data;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 public class MainMenuController : MonoBehaviour
@@ -15,6 +17,7 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private GameObject _mainMenuScreen;
     [SerializeField] private GameObject _mainGameScreen;
     ////////////////////////////////////////////////////////////////////////////////////////////
+
     private void SwapToGameScreen()
     {
         _mainMenuScreen.SetActive(false);
@@ -143,7 +146,7 @@ public class MainMenuController : MonoBehaviour
             {
                 Debug.Log("Save1 created successfully.");
                 //refresh the save selector list, close the New Save panel, etc.
-                CurrencyManager.Data = SaveManager.Load("Save1.json");
+                DataManager.Data = SaveManager.Load("Save1.json");
                 SwapToGameScreen();
             }
             else
@@ -166,7 +169,7 @@ public class MainMenuController : MonoBehaviour
             {
                 Debug.Log("Save2 created successfully.");
                 //refresh the save selector list, close the New Save panel, etc.
-                CurrencyManager.Data = SaveManager.Load("Save2.json");
+                DataManager.Data = SaveManager.Load("Save2.json");
                 SwapToGameScreen();
             }
             else
@@ -189,7 +192,7 @@ public class MainMenuController : MonoBehaviour
             {
                 Debug.Log("Save3 created successfully.");
                 //refresh the save selector list, close the New Save panel, etc.
-                CurrencyManager.Data = SaveManager.Load("Save3.json");
+                DataManager.Data = SaveManager.Load("Save3.json");
                 SwapToGameScreen();
             }
             else
@@ -206,21 +209,21 @@ public class MainMenuController : MonoBehaviour
 
     private void OnLoadSave1Clicked()
     {
-        CurrencyManager.Data = SaveManager.Load("Save1.json");
+        DataManager.Data = SaveManager.Load("Save1.json");
         SwapToGameScreen();
         Debug.Log("Save1 Loaded Successfully!");
     }
 
     private void OnLoadSave2Clicked()
     {
-        CurrencyManager.Data = SaveManager.Load("Save2.json");
+        DataManager.Data = SaveManager.Load("Save2.json");
         SwapToGameScreen();
         Debug.Log("Save2 Loaded Successfully!");
     }
 
     private void OnLoadSave3Clicked()
     {
-        CurrencyManager.Data = SaveManager.Load("Save3.json");
+        DataManager.Data = SaveManager.Load("Save3.json");
         SwapToGameScreen();
         Debug.Log("Save3 Loaded Successfully!");
     }
@@ -238,4 +241,3 @@ public class MainMenuController : MonoBehaviour
         }
     }
 }
-test

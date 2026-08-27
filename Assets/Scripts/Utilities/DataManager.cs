@@ -22,7 +22,7 @@ public class Currency: IHasId
     public double Value { get; set; }
 }
 
-public abstract class DataManager<T> : MonoBehaviour where T : IHasID
+public abstract class DataManager<T> : MonoBehaviour where T : IHasId
 {
     protected readonly Dictionary<string, T> _items = new();
     public IReadOnlyDictionary<string, T> Items => _items;
