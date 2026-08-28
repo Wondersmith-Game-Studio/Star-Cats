@@ -1,11 +1,10 @@
 using UnityEngine;
 using Assets.Scripts.Utilities;
-using Assets.Scripts.Utilities;
 using System.Text.Json.Nodes;
 
 //////////////////////////////////////////////////////////////
 
-pubic class CurrencyManager : DataManager<Currency>
+public class CurrencyManager : DataManager<Currency>
 {
     public static CurrencyManager Instance { get; private set; }
 
@@ -27,7 +26,7 @@ pubic class CurrencyManager : DataManager<Currency>
     /////////////////////////////////////////////////////////////////
     public void Add(string id, double amount)
     {
-        if (!_items.TryGetValue(id, out var c) return;
+        if (!_items.TryGetValue(id, out var c)) return;
         c.Amount += amount;
         RaiseChanged(id);
     }
@@ -44,6 +43,6 @@ pubic class CurrencyManager : DataManager<Currency>
 
     public JsonNode Save()
     {
-        ToSave();
+        return ToSave();
     }
 }

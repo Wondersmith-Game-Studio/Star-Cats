@@ -25,14 +25,21 @@ public class Currency: IHasId
 }
 
 ////////////////////////////////////////////////////////////////////
+//NON-GENERIC BASE HOLDS THE SHARED, LOADED SAVE BLOB SO IT CAN BE REACHED AS
+//DataManager.Data FROM ANY FILE (a static on the generic class would be per-T and
+//could not be referenced without a type argument).
+public abstract class DataManager : MonoBehaviour
+{
+    ///INSERTED FROM SAVEMANAGER
+    public static JsonObject Data;
+}
+
+////////////////////////////////////////////////////////////////////
 //<T> IS PLACEHOLDER FOR A TYPE, ENSURING THERE IS AN ID ASSOCIATED WITH INSERTED ITEM
-public abstract class DataManager<T> : MonoBehaviour where T : IHasId
+public abstract class DataManager<T> : DataManager where T : IHasId
 {
     ///////////////////////////////////////////////////////////////////////////////////
-    
-    ///INSERTED FROM SAVEMANAGER
-    public static Json Object Data;
-    
+
     ///READONLY DICTIONARY, GENERIC _ITEMS FOR VARIOUS MANAGER FILES
     protected readonly Dictionary<string, T> _items = new();
     
@@ -56,7 +63,7 @@ public abstract class DataManager<T> : MonoBehaviour where T : IHasId
 
         //BUILD A LIST FROM ITEM ARRAY <T>, IF THERE IS ONE
         var list = itemsArray.Deserialize<List<T>>(
-            new JsonSerializerOptions { PropertyNameCaseIncensitive = true });
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         
         if (list == null) return;
         
@@ -73,6 +80,6 @@ public abstract class DataManager<T> : MonoBehaviour where T : IHasId
     
     ///////////////////////////////////////////////////////////////////////////////
     
-    public T Get(string id) => _items.TryGetValue(id, out var v) ? v : defualt;
+    public T Get(string id) => _items.TryGetValue(id, out var v) ? v : default;
     public bool Has(string id) => _items.ContainsKey(id);
 }
