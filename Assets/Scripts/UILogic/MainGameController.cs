@@ -16,7 +16,6 @@ public class MainGameController : MonoBehaviour
     private VisualElement _upgrades;
     private VisualElement _navBar;
     private static currencyDict = CurrencyManager.Instance.Items;
-
 //////////////////////////////////////////////////////////////////////////////////////////////
 
     [SerializeField] GameObject _mainGameScreen;
@@ -75,40 +74,58 @@ public class MainGameController : MonoBehaviour
     private void OnUIReload(PanelRenderer renderer, VisualElement root, int version)
     {
         _spriteContainer = root.Q<Button>("MainGameImage");
-        var _resourceSprite = new Button { name = $"{c.Id}Sprite" } { img src = (c.resourceSprite) };
+        _currentClick = null; //CLEAR CLICKHANDLER BEFORE REBUILD
+        _selectedId = GetString("selectedCurrency", "SpaceRock");
 
+        BuildSpriteContainer(_selectedId);
         BuildResourceList(root);
-        BuildSpriteContainer();
-
-        CurrencyManager.Instance.OnChanged += UpdateLabel;
-        if (_resourceSprite != null) _resourceSprite.clicked += OnResourceSpriteClicked(c)
     }
 
+    //CREATES TEXT PORTION OF CURRENCY UI
     private void UpdateLabel(string id)
     {
         var label = _resourceListContainer.Q<Label>($"{id}Label");
         if (label != null) label.text = $"{CurrencyManager.Instance.AmountOf(id)}";
     }
-    //////////////////////////////////////////////////////////////////////////////////////////
-    ///END OF DYNAMIC CURRENCY UI POPULATION
-    //////////////////////////////////////////////////////////////////////////////////////////
-
-    //////////////////////////////////////////////////////////////////////////////////////////
-    ///SCRIPT FOR CLICKING SPRITE IMAGE TO ADD CURRENCY
+    
+    //FUNCTION FOR BUILDING THE CLICKABLE CONTAINER IN CENTER OF SCREEN BASED ON CURRENCY ID
     private void BuildSpriteContainer(string id)
     {
+        //SET SELECTED ID IN PERSISTENT STORAGE (SEE DATAMANGER.SAVEDATA())
+        _selectedId = id;
+
+        //FIND CURRENCY BY ID
         Currency c = CurrencyManager.Instance.Get(id);
         if (c == null || _spriteContainer == null) return;
 
-        _spriteContainer.Clear();
+        //FIND USE CURRENCY'S SPRITE PROPERTY FOR BACKGROUND IMAGE
+        _spriteContainer.style.backgroundImage = new StyleBackground(c.Sprite);
 
-        _spriteContainer.AddToClassList("Image");
+        //REMOVE OLD HANDLER SO IT DOESN'T STACK
+        if (_currentClick != null) _currentClick -= OnSpriteClicked;
 
-        Debug.Log($"_resourceSprite Built: (MainGameController.BuildSpriteContainer({id.Id})")
+        //CREATE NEW HANDLER FOR THIS CURRENCY, REMEMBER IT        
+        _currentClick = () => OnSpriteClicked(c);
+        _spriteContainer.clicked += _currentClick;
+
+        Debug.Log($"_resourceSprite Built: (MainGameController.BuildSpriteContainer({id.Id})");
     }
 
-    private void OnResourceSpriteClicked(string id)
+    //////////////////////////////////////////////////////////////////////////////////////////
+    ///ONCLICKEVENT FUNCTIONS
+    //////////////////////////////////////////////////////////////////////////////////////////
+    
+    //RESOURCESPRITE CLICK EVENT FUNCTION
+    //ADD VALUE
+    //TRIGGER ANIMATION (NEEDS IMPLEMENTED - 8/29/2026)
+    private void OnSpriteClicked(Currency c)
     {
+        //ADD THE VALUE ASSOCIATED WITH CURRENCY BY ID
+        CurrencyManager.Instance.Add(c.Id, c.Value);
+
+        //TRIGGER ANIMATION(NEEDS IMPLEMENTED - 8/29/2026)
+        //THINKING JUST MAKE A NUMBER FLOAT UP FROM CLICK LOCATION BEFORE FADING. MAYBE SOME SINE WAVE BACK AND FORTH ACTION AS IT RISES
+
         Debug.Log("Sprite Click Registered: (MainGameController.OnResourceSpriteClicked)");
     }
 }

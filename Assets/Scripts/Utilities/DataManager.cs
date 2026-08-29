@@ -34,6 +34,17 @@ public abstract class DataManager : MonoBehaviour
     public static JsonObject Data;
 }
 
+public static string GetString(string key, string fallback = "")
+{
+    Data?[Key]?.GetValue<string>() ?? fallback;
+}
+
+public static void SetString(string key, string value)
+{
+    Data ??= new JsonObject();
+    Data[key] = value;
+}
+
 ////////////////////////////////////////////////////////////////////
 //<T> IS PLACEHOLDER FOR A TYPE, ENSURING THERE IS AN ID ASSOCIATED WITH INSERTED ITEM
 public abstract class DataManager<T> : DataManager where T : IHasId
