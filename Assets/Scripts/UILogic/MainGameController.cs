@@ -15,11 +15,7 @@ public class MainGameController : MonoBehaviour
     private Button _spriteContainer;
     private VisualElement _upgrades;
     private VisualElement _navBar;
-    private static var currencyDict = CurrencyManager.Instance.Items.Values;
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-
-    _spriteContainer = root.Q<Button>("MainGameImage");
+    private static currencyDict = CurrencyManager.Instance.Items;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -72,14 +68,17 @@ public class MainGameController : MonoBehaviour
             label.AddToClassList("ResourceElement");
             row.Add(label);
 
-            _resourceListContaianer.Add(row);
+            _resourceListContainer.Add(row);
         }
     }
 
     private void OnUIReload(PanelRenderer renderer, VisualElement root, int version)
     {
+        _spriteContainer = root.Q<Button>("MainGameImage");
+        var _resourceSprite = new Button { name = $"{c.Id}Sprite" } { img src = (c.resourceSprite) };
+
         BuildResourceList(root);
-        BuildSpriteContainer(c);
+        BuildSpriteContainer();
 
         CurrencyManager.Instance.OnChanged += UpdateLabel;
         if (_resourceSprite != null) _resourceSprite.clicked += OnResourceSpriteClicked(c)
@@ -87,7 +86,7 @@ public class MainGameController : MonoBehaviour
 
     private void UpdateLabel(string id)
     {
-        var label = _resourceList.Q<Label>($"{id}Label");
+        var label = _resourceListContainer.Q<Label>($"{id}Label");
         if (label != null) label.text = $"{CurrencyManager.Instance.AmountOf(id)}";
     }
     //////////////////////////////////////////////////////////////////////////////////////////
@@ -96,21 +95,20 @@ public class MainGameController : MonoBehaviour
 
     //////////////////////////////////////////////////////////////////////////////////////////
     ///SCRIPT FOR CLICKING SPRITE IMAGE TO ADD CURRENCY
-    private void BuildSpriteContainer(c)
+    private void BuildSpriteContainer(string id)
     {
+        Currency c = CurrencyManager.Instance.Get(id);
+        if (c == null || _spriteContainer == null) return;
+
         _spriteContainer.Clear();
 
-        var _resourceSprite = new Button { name = $"{c.Id}Sprite" } { img src = (c.resourceSprite) };
-        _resourceSprite.AddToClassList(Image);
+        _spriteContainer.AddToClassList("Image");
 
-        Debug.Log($"_resourceSprite Built: (MainGameController.BuildSpriteContainer({c.Id})")
+        Debug.Log($"_resourceSprite Built: (MainGameController.BuildSpriteContainer({id.Id})")
     }
 
-    private void 
-
-    private void OnResourceSpriteClicked(c)
+    private void OnResourceSpriteClicked(string id)
     {
-        
         Debug.Log("Sprite Click Registered: (MainGameController.OnResourceSpriteClicked)");
     }
 }

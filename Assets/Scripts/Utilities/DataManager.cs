@@ -21,7 +21,7 @@ public class Currency: IHasId
     public double Amount { get; set; }
     public double Value { get; set; }
 
-    public string resourceSprite { get; set; }
+    public string ResourceSprite { get; set; }
 }
 
 ////////////////////////////////////////////////////////////////////
