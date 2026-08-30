@@ -21,7 +21,7 @@ public class Currency: IHasId
     public double Amount { get; set; }
     public double Value { get; set; }
 
-    public string ResourceSprite { get; set; }
+    public string Sprite { get; set; }
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -32,17 +32,17 @@ public abstract class DataManager : MonoBehaviour
 {
     ///INSERTED FROM SAVEMANAGER
     public static JsonObject Data;
-}
 
-public static string GetString(string key, string fallback = "")
-{
-    Data?[Key]?.GetValue<string>() ?? fallback;
-}
 
-public static void SetString(string key, string value)
-{
-    Data ??= new JsonObject();
-    Data[key] = value;
+    public static string GetString(string key, string fallback = "")
+    => Data?[key]?.GetValue<string>() ?? fallback;
+    
+
+    public static void SetString(string key, string value)
+    {
+        Data ??= new JsonObject();
+        Data[key] = value;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////

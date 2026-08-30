@@ -11,11 +11,12 @@ public class CurrencyManager : DataManager<Currency>
     void Awake()
     {
         Instance = this;
+        BuildFromSave(Data?["currencies"]);
     }
 
     void Start()
     {
-        BuildFromSave(DataManager.Data?["currencies"]);
+        
     }
     
     ////////////////////////////////////////////////////////////////////////////

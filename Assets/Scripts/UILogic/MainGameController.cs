@@ -5,6 +5,9 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using JetBrains.Annotations;
 using System;
+using System.Collections.Generic;
+using UnityEngine.InputSystem.iOS;
+using Mono.Cecil.Cil;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -13,15 +16,20 @@ public class MainGameController : MonoBehaviour
     private PanelRenderer _panelRenderer;
     private VisualElement _resourceListContainer;
     private Button _spriteContainer;
-    private VisualElement _upgrades;
-    private VisualElement _navBar;
-    private static currencyDict = CurrencyManager.Instance.Items;
+    //private VisualElement _upgrades;  WIRE LATER 8/29/2026
+    //private VisualElement _navBar; WIRE LATER 8/29/2026
+    //private readonly IReadOnlyDictionary<string, Currency> _currencyDict = CurrencyManager.Instance.Items;
+    private Action  _currentClick;
+    private string _selectedId;
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 
+    #pragma warning disable CS0649
     [SerializeField] GameObject _mainGameScreen;
+    #pragma warning disable CS0649
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-    void OnEnable()
+    void Start()
     {
         _panelRenderer = GetComponent<PanelRenderer>();
         if (_panelRenderer != null)
@@ -30,7 +38,7 @@ public class MainGameController : MonoBehaviour
         }
         else
         {
-            Debug.Log("PanelRenderer not found on MainGameController Object(MainGameController.cs)")
+            Debug.Log("PanelRenderer not found on MainGameController Object(MainGameController.cs)");
         }
     }
 
@@ -54,7 +62,7 @@ public class MainGameController : MonoBehaviour
         _resourceListContainer = root.Q<VisualElement>("ResourceList");
         _resourceListContainer.Clear();
 
-        foreach (Currency c in currencyDict)
+        foreach (Currency c in CurrencyManager.Instance.Items.Values)
         {
             var row = new VisualElement { name = c.Id };
             row.AddToClassList("Resource");
@@ -75,7 +83,7 @@ public class MainGameController : MonoBehaviour
     {
         _spriteContainer = root.Q<Button>("MainGameImage");
         _currentClick = null; //CLEAR CLICKHANDLER BEFORE REBUILD
-        _selectedId = GetString("selectedCurrency", "SpaceRock");
+        _selectedId = DataManager.GetString("selectedCurrency", "SpaceRock");
 
         BuildSpriteContainer(_selectedId);
         BuildResourceList(root);
@@ -95,20 +103,20 @@ public class MainGameController : MonoBehaviour
         _selectedId = id;
 
         //FIND CURRENCY BY ID
+
+        Debug.Log($"sprite={_spriteContainer}, currency={CurrencyManager.Instance?.Get(id)}, id={id}");
         Currency c = CurrencyManager.Instance.Get(id);
         if (c == null || _spriteContainer == null) return;
 
         //FIND USE CURRENCY'S SPRITE PROPERTY FOR BACKGROUND IMAGE
-        _spriteContainer.style.backgroundImage = new StyleBackground(c.Sprite);
+        //Sprite sprite = Resources.Load<Sprite>(c.Sprite);
+        //_spriteContainer.style.backgroundImage = new StyleBackground(sprite);
 
-        //REMOVE OLD HANDLER SO IT DOESN'T STACK
-        if (_currentClick != null) _currentClick -= OnSpriteClicked;
-
-        //CREATE NEW HANDLER FOR THIS CURRENCY, REMEMBER IT        
+        //SET CLICK HANDLER FOR THE SPRITE   
         _currentClick = () => OnSpriteClicked(c);
         _spriteContainer.clicked += _currentClick;
 
-        Debug.Log($"_resourceSprite Built: (MainGameController.BuildSpriteContainer({id.Id})");
+        Debug.Log($"_resourceSprite Built: (MainGameController.BuildSpriteContainer( { id } )" );
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////

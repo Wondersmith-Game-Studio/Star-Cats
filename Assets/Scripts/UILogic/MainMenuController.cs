@@ -17,8 +17,10 @@ public class MainMenuController : MonoBehaviour
     
     //////////////////////////////////////////////////////////////////////////////////////////
     
+    #pragma warning disable CS0649
     [SerializeField] private GameObject _mainMenuScreen;
     [SerializeField] private GameObject _mainGameScreen;
+    #pragma warning disable CS0649
 
     //////////////////////////////////////////////////////////////////////////////////////////
 
