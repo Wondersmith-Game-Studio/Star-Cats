@@ -60,14 +60,18 @@ public abstract class DataManager<T> : DataManager where T : IHasId
     public int Count => _items.Count;
 
     public event Action<string> OnChanged; //PUBLIC EVENT MANAGERS CAN CALL TO TELL CONTROLLERS TO UPDATE, RATHER THAN POLLING. MORE RESOURCE EFFECIENT.
-    protected void RaiseChanged(string id) => OnChanged?.Invoke(id); //TRIGGERS ONCHANGED EVENTS FOR EVERY LINE WITH ONE PER (id)   EG: ONCHANGED("SPACEROCK")
-
+    
+    protected void RaiseChanged(string id)
+    {
+        OnChanged?.Invoke(id); //TRIGGERS ONCHANGED EVENTS FOR EVERY LINE WITH ONE PER (id)   EG: ONCHANGED("SPACEROCK")
+        Debug.Log($"{id} Invoked.");
+    }
     //////////////////////////////////////////////////////////////////////////////////
     
     ///TAKES JSON OBJECT AND CREATES LIST "itemsArray" BASED ON INSERTED <T>
     ///EG: ONE FOR CURRENCY, ONE FOR GENERATORS, ONE FOR UPGRADES, ECT.
-    protected void BuildFromSave(JsonNode itemsArray)
-    {
+        protected void BuildFromSave(JsonNode itemsArray)
+            {
         //CLEARS LIST, IF ONE EXISTS
         _items.Clear();
         if (itemsArray == null) return;

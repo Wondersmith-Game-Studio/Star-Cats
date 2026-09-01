@@ -1,61 +1,38 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    
     <Style src="project://database/Assets/UI%20Toolkit/MainGameScreen.uss?fileID=7433441132597879392&amp;guid=b54df33fc4d1ca344b6fc19144118466&amp;type=3#MainGameScreen"/>
-    
     <ui:VisualElement name="MainGameScreen" class="MainGameScreen">
-        
-        
         <ui:VisualElement name="MainContainter" class="MainContainer">
-            
             <ui:VisualElement name="ResourceList" class="ResourceList">
-                
                 <ui:VisualElement name="SpaceRock" class="Resource">
-                    
                     <ui:VisualElement name="SpaceRockLeft" class="ResourceImageElement">
                         <ui:Image name="SpaceRockIMG" class="ResourceImage"/>
                     </ui:VisualElement>
-                    
                     <ui:VisualElement name="SpaceRockRight" class="ResourceElement" style="flex-grow: 1;">
                         <ui:Label text="Label" name="SpaceRockLabel"/>
                     </ui:VisualElement>
-                
                 </ui:VisualElement>
-
                 <ui:VisualElement name="SpaceCopper" class="Resource" style="flex-grow: 1;">
-                    
                     <ui:VisualElement name="SpaceCopperLeft" class="ResourceImageElement">
                         <ui:Image name="SpaceCopperIMG" class="ResourceImage"/>
                     </ui:VisualElement>
-                    
                     <ui:VisualElement name="SpaceCopperRight" class="ResourceElement" style="flex-grow: 1;">
                         <ui:Label text="Label" name="SpaceCopperLabel"/>
                     </ui:VisualElement>
-                
                 </ui:VisualElement>
-                
                 <ui:VisualElement name="SpaceIron" class="Resource" style="flex-grow: 1;">
                     <ui:VisualElement name="SpaceIronLeft" class="ResourceImageElement">
                         <ui:Image name="SpaceIronIMG" class="ResourceImage"/>
                     </ui:VisualElement>
-                    
                     <ui:VisualElement name="SpaceIronRight" class="ResourceElement" style="flex-grow: 1;">
                         <ui:Label text="Label" name="SpaceIronLabel"/>
                     </ui:VisualElement>
-                
                 </ui:VisualElement>
-            
             </ui:VisualElement>
-            
             <ui:Button name="MainGameImage" class="Image">
-                <ui:Image name="SpaceRockImage" class="SpaceRockImage" style="background-image: img src="&quot;project://database/Assets/Art/SpaceRockAI.png?fileID=2800000&amp;guid=9fed911324301854aa5e91d86381c660&amp;type=3#SpaceRockAI&quot;"; align-self: center; justify-content: center; align-items: center;"/>
-            </ui:VisualElement>
-            
+                <ui:Image name="SpaceRockImage" class="SpaceRockImage" style="align-self: center; justify-content: center; align-items: center; background-image: url(&quot;project://database/Assets/Art/SpaceRockAI.png?fileID=2800000&amp;guid=9fed911324301854aa5e91d86381c660&amp;type=3#SpaceRockAI&quot;);"/>
+            </ui:Button>
             <ui:VisualElement name="Upgrades" class="Upgrades"/>
-        
         </ui:VisualElement>
-        
         <ui:VisualElement name="NavBar" class="NavBar"/>
-    
     </ui:VisualElement>
-
 </ui:UXML>

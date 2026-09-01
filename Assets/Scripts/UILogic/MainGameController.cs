@@ -29,7 +29,12 @@ public class MainGameController : MonoBehaviour
     #pragma warning disable CS0649
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-    void Start()
+    void Awake()
+    {
+        _mainGameScreen.SetActive(false);
+    }
+    
+    void OnEnable()
     {
         _panelRenderer = GetComponent<PanelRenderer>();
         if (_panelRenderer != null)
@@ -57,36 +62,44 @@ public class MainGameController : MonoBehaviour
     ///ADD BOOL VALUES TO DETERMINE IF VISUAL ELEMENT SHOULD BE CREATED OR NOT
     ///DEPENDENT ON IF PLAYER HAS UNLOCKED CURRENCY - PROBABLY AS PROPERTY ATTACHED TO OBJECTS
     //////////////////////////////////////////////////////////////////////////////////////////
-    private void BuildResourceList(VisualElement root)
+    private void BuildResourceList(VisualElement _resourceListContainer)
     {
-        _resourceListContainer = root.Q<VisualElement>("ResourceList");
-        _resourceListContainer.Clear();
+        _resourceListContainer?.Clear();
 
         foreach (Currency c in CurrencyManager.Instance.Items.Values)
         {
             var row = new VisualElement { name = c.Id };
             row.AddToClassList("Resource");
 
-            var icon = new Image { name = $"{c.Id}IMG" };
-            icon.AddToClassList("ResourceImage");
-            row.Add(icon);
+            //var icon = new Image { name = $"{c.Id}IMG" };
+            //icon.AddToClassList("ResourceImage");
+           // row.Add(icon);
 
             var label = new Label($"{c.Id} : {c.Amount}") { name = $"{c.Id}Label" };
             label.AddToClassList("ResourceElement");
             row.Add(label);
 
+            Debug.Log($"{_resourceListContainer}");
+            Debug.Log($"{row}");
+
             _resourceListContainer.Add(row);
         }
+    }
+
+    public void UpdateResourceList(string id)
+    {
+        
     }
 
     private void OnUIReload(PanelRenderer renderer, VisualElement root, int version)
     {
         _spriteContainer = root.Q<Button>("MainGameImage");
+        _resourceListContainer = root.Q<VisualElement>("ResourceList");
         _currentClick = null; //CLEAR CLICKHANDLER BEFORE REBUILD
         _selectedId = DataManager.GetString("selectedCurrency", "SpaceRock");
 
         BuildSpriteContainer(_selectedId);
-        BuildResourceList(root);
+        BuildResourceList(_resourceListContainer);
     }
 
     //CREATES TEXT PORTION OF CURRENCY UI
@@ -109,8 +122,8 @@ public class MainGameController : MonoBehaviour
         if (c == null || _spriteContainer == null) return;
 
         //FIND USE CURRENCY'S SPRITE PROPERTY FOR BACKGROUND IMAGE
-        //Sprite sprite = Resources.Load<Sprite>(c.Sprite);
-        //_spriteContainer.style.backgroundImage = new StyleBackground(sprite);
+        //Sprite sprite = Resources.Load<Sprite>(c.Sprite);  INSERT SPRITE 8/29/2026
+        //_spriteContainer.style.backgroundImage = new StyleBackground(sprite); INSERT SPRITE 8/29/2026
 
         //SET CLICK HANDLER FOR THE SPRITE   
         _currentClick = () => OnSpriteClicked(c);
@@ -129,7 +142,7 @@ public class MainGameController : MonoBehaviour
     private void OnSpriteClicked(Currency c)
     {
         //ADD THE VALUE ASSOCIATED WITH CURRENCY BY ID
-        CurrencyManager.Instance.Add(c.Id, c.Value);
+        CurrencyManager.Instance.Add(c.Id);
 
         //TRIGGER ANIMATION(NEEDS IMPLEMENTED - 8/29/2026)
         //THINKING JUST MAKE A NUMBER FLOAT UP FROM CLICK LOCATION BEFORE FADING. MAYBE SOME SINE WAVE BACK AND FORTH ACTION AS IT RISES

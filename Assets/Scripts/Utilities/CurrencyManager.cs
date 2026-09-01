@@ -11,12 +11,13 @@ public class CurrencyManager : DataManager<Currency>
     void Awake()
     {
         Instance = this;
-        BuildFromSave(Data?["currencies"]);
     }
 
-    void Start()
+    public void InitializeCurrencyManager(JsonObject Data)
     {
-        
+        BuildFromSave(Data?["currencies"]);
+
+        Debug.Log("CurrencyManager Initialized (CurrencyManager.InitializeCurrencyManager");
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -25,10 +26,10 @@ public class CurrencyManager : DataManager<Currency>
 
     //METHOD TO ADD CURRENCY
     /////////////////////////////////////////////////////////////////
-    public void Add(string id, double amount)
+    public void Add(string id)
     {
         if (!_items.TryGetValue(id, out var c)) return;
-        c.Amount += amount;
+        c.Amount += 1;
         RaiseChanged(id);
     }
 
