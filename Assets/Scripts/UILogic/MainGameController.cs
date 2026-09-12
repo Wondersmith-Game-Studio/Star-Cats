@@ -103,10 +103,10 @@ public class MainGameController : MonoBehaviour
     }
 
     //CREATES TEXT PORTION OF CURRENCY UI
-    private void UpdateLabel(string id)
+    private void UpdateLabel(Currency c)
     {
-        var label = _resourceListContainer.Q<Label>($"{id}Label");
-        if (label != null) label.text = $"{CurrencyManager.Instance.AmountOf(id)}";
+        var label = _resourceListContainer.Q<Label>($"{c.Id}Label");
+        if (label != null) label.text = $"{c.Id} : {c.Amount}";
     }
     
     //FUNCTION FOR BUILDING THE CLICKABLE CONTAINER IN CENTER OF SCREEN BASED ON CURRENCY ID
@@ -143,6 +143,9 @@ public class MainGameController : MonoBehaviour
     {
         //ADD THE VALUE ASSOCIATED WITH CURRENCY BY ID
         CurrencyManager.Instance.Add(c.Id);
+
+        //UPDATE ONLY THIS CURRENCY'S ROW IN THE RESOURCE LIST
+        UpdateLabel(c);
 
         //TRIGGER ANIMATION(NEEDS IMPLEMENTED - 8/29/2026)
         //THINKING JUST MAKE A NUMBER FLOAT UP FROM CLICK LOCATION BEFORE FADING. MAYBE SOME SINE WAVE BACK AND FORTH ACTION AS IT RISES
