@@ -44,18 +44,31 @@
     flex-grow: 1;
     left: 0;
     top: 0;
-    height: 100%;
+    height: auto;
     width: 25%;
     flex-direction: column;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    position: absolute;
+    right: auto;
+    bottom: auto;
+    align-items: center;
+    justify-content: center;
+    align-content: flex-start;
 }
 
 .Image {
-    width: 50%;
+    width: 100%;
+    background-color: rgb(35, 31, 31);
 }
 
 .Upgrades {
     width: 25%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    left: auto;
+    bottom: auto;
+    height: 100%;
 }
 
 .NavBar {
@@ -81,6 +94,7 @@
     align-self: center;
     align-content: auto;
     width: 100%;
+    height: 75px;
 }
 
 .ResourceImage {
@@ -109,6 +123,7 @@
     width: 75%;
     height: 100%;
     justify-content: center;
+    color: rgb(255, 255, 255);
 }
 
 .ResourceImageElement {
@@ -121,4 +136,16 @@
     align-items: center;
     top: auto;
     bottom: 0%;
+}
+
+.UpgradeLabel {
+    -unity-text-align: upper-center;
+    -unity-text-outline-color: rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
+    font-size: 24px;
+}
+
+.ResourceElementLabel {
+    align-content: auto;
+    align-items: auto;
 }

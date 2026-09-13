@@ -26,6 +26,7 @@ public class MainGameController : MonoBehaviour
 
     #pragma warning disable CS0649
     [SerializeField] GameObject _mainGameScreen;
+    [SerializeField] VisualTreeAsset resourceRowTemplate; //ResourceRowTemplate.uxml
     #pragma warning disable CS0649
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -68,27 +69,21 @@ public class MainGameController : MonoBehaviour
 
         foreach (Currency c in CurrencyManager.Instance.Items.Values)
         {
-            var row = new VisualElement { name = c.Id };
+            VisualElement row = resourceRowTemplate.Instantiate();
+            row.name = c.Id;
             row.AddToClassList("Resource");
 
-            //var icon = new Image { name = $"{c.Id}IMG" };
-            //icon.AddToClassList("ResourceImage");
-           // row.Add(icon);
+            var img = row.Q<Image>("ResourceIMG");
+            img.name = $"{c.Id}IMG";
+            if (!string.IsNullOrEmpty(c.Sprite))
+                img.sprite = Resources.Load<Sprite>(c.Sprite);
 
-            var label = new Label($"{c.Id} : {c.Amount}") { name = $"{c.Id}Label" };
-            label.AddToClassList("ResourceElement");
-            row.Add(label);
-
-            Debug.Log($"{_resourceListContainer}");
-            Debug.Log($"{row}");
+            var label = row.Q<Label>("ResourceLabel");
+            label.name = $"{c.Id}Label";
+            label.text = $"{c.Id} : {c.Amount}";
 
             _resourceListContainer.Add(row);
         }
-    }
-
-    public void UpdateResourceList(string id)
-    {
-        
     }
 
     private void OnUIReload(PanelRenderer renderer, VisualElement root, int version)

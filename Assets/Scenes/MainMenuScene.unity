@@ -150,6 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainGameController
   _mainGameScreen: {fileID: 26726033}
+  resourceRowTemplate: {fileID: 9197481963319205126, guid: b38c3b8543915054494f8366a3895bd7, type: 3}
 --- !u!1931382934 &26726035
 PanelRenderer:
   m_ObjectHideFlags: 0

@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="Resource" class="Resource">
+        <ui:VisualElement name="ImageElement" class="ResourceImageElement">
+            <ui:Image name="ResourceIMG" class="ResourceImage"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="TextElement" class="ResourceElement">
+            <ui:Label name="ResourceLabel" class="ResourceElementLabel"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
