@@ -5,6 +5,8 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Linq;
 using System.Collections.Generic;
+using JetBrains.Annotations;
+using System.Data;
 
 /////////////////////////////////////////////////////////////////////
 //INTERFACE TO CALL TO ENSURE IT HAS AN ID OR COMPILER THROWS ERROR
@@ -22,6 +24,36 @@ public class Currency: IHasId
     public double Value { get; set; }
 
     public string Sprite { get; set; }
+}
+
+public class Generator: IHasId
+{
+    public string Id { get; set; }
+    public int Amount { get; set; }
+    public int Value { get; set; }
+
+    public string Sprite { get; set; }
+}
+
+public class Upgrade: IHasId
+{
+    public string Id { get; set; }
+    public int Value { get; set; }
+    public bool Acquired { get; set; }
+    
+    public string Sprite { get; set; }
+}
+
+public class Cat : IHasId
+{
+    public string Id { get; set; }
+    public string Task { get; set; } = "Idle";
+}
+
+public class CatTask : IHasId
+{
+    public string Id { get; set; }
+    public string Name { get; set; }
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -68,22 +100,32 @@ public abstract class DataManager<T> : DataManager where T : IHasId
     }
     //////////////////////////////////////////////////////////////////////////////////
     
-    ///TAKES JSON OBJECT AND CREATES LIST "itemsArray" BASED ON INSERTED <T>
+    ///TAKES JSON OBJECT AND CREATES LIST "itemsArray" BASED ON INSERTED T
     ///EG: ONE FOR CURRENCY, ONE FOR GENERATORS, ONE FOR UPGRADES, ECT.
         protected void BuildFromSave(JsonNode itemsArray)
             {
-        //CLEARS LIST, IF ONE EXISTS
-        _items.Clear();
-        if (itemsArray == null) return;
+        //IF NO SAVED ARRAY, CLEAR LIST AND RETURN
+        if (itemsArray == null) { _items.Clear(); return; }
 
         //BUILD A LIST FROM ITEM ARRAY <T>, IF THERE IS ONE
         var list = itemsArray.Deserialize<List<T>>(
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        
-        if (list == null) return;
-        
+
+        //HAND OFF TO BUILDFROMLIST TO POPULATE _ITEMS
+        BuildFromList(list);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    ///TAKES ALREADY-BUILT LIST <T> AND POPULATES _ITEMS FROM IT
+    ///USED FOR CREATING OBJECT LISTS USING SAVED QUANTITIES (EG: CATS / TASKS)
+        protected void BuildFromList(List<T> items)
+            {
+        //CLEARS LIST, IF ONE EXISTS
+        _items.Clear();
+        if (items == null) return;
+
         //ITERATE THROUGH LIST, CREATE OBJECT FOR EVERY ENTRY
-        foreach (T item in list)
+        foreach (T item in items)
             _items[item.Id] = item;
     }
 

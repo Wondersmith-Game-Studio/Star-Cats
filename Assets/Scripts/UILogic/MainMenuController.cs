@@ -14,7 +14,7 @@ public class MainMenuController : MonoBehaviour
 {
     //////////////////////////////////////////////////////////////////////////////////////////
     
-    private PanelRenderer _panelRenderer;
+    private UIDocument _uiDocument;
     private VisualElement _saveSelectorContainer;
     private VisualElement _newSaveContainer;
     private VisualElement _settingsContainer;
@@ -50,26 +50,20 @@ public class MainMenuController : MonoBehaviour
     //////////////////////////////////////////////////////////////////////////////////////////
     void OnEnable()
     {
-        _panelRenderer = GetComponent<PanelRenderer>();
-        if (_panelRenderer != null)
+        _uiDocument = GetComponent<UIDocument>();
+        if (_uiDocument != null)
         {
-            _panelRenderer.RegisterUIReloadCallback(OnUIReload);
+            BuildUI(_uiDocument.rootVisualElement);
         }
         else
         {
-            Debug.LogError("PanelRenderer not found on this GameObject.");
+            Debug.LogError("UIDocument not found on this GameObject.");
         }
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////
-    void OnDisable()
-    {
-        _panelRenderer?.UnregisterUIReloadCallback(OnUIReload);
-    }
-    
-    //////////////////////////////////////////////////////////////////////////////////////////
-    
-    private void OnUIReload(PanelRenderer renderer, VisualElement root, int version)
+
+    private void BuildUI(VisualElement root)
     {
         _saveSelectorContainer = root.Q<VisualElement>("SaveSelectorContainer");
         _newSaveContainer = root.Q<VisualElement>("NewSaveContainer");
