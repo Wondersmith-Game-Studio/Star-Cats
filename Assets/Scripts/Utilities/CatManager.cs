@@ -24,7 +24,7 @@ public class CatManager : DataManager<Cat>
             int quantity = (int)(Data?["Cats"]?["Quantity"] ?? 0);
 
             var cats = new List<Cat>();
-            for (int i = this.Quantity; i < quantity; this.Quantity++)
+            for (int i = 0; i < quantity; i++, this.Quantity = i)
                 cats.Add(new Cat { Id = $"Cat_{i}"});
 
             BuildFromList(cats);
@@ -38,22 +38,58 @@ public class CatManager : DataManager<Cat>
             RaiseChanged(cat.Id);
         }
 
-        public void AssignCatTask(string catId)
+        public string GetIdleCatId()
         {
-            
+            foreach (var cat in _items.Values)
+            {
+                if (cat.Task == "Idle")
+                    return cat.Id;
+            }
+
+            return null;
         }
 
-        public void AssignToHaul(string catId)
+        public void AssignToMine(string? catId)
         {
+            if (catId != null)
+            {
+                _items[catId].Task = "Mining";
+            }
+            else
+            {
+                var idleCatId = GetIdleCatId();
+                if (idleCatId != null)
+                    _items[idleCatId].Task = "Mining";
+            }
+        }
 
+        public void AssignToHaul(string? catId)
+        {
+            if (catId != null)
+            {
+                _items[catId].Task = "Hauling";
+            }
+            else
+            {
+                var idleCatId = GetIdleCatId();
+                if (idleCatId != null)
+                    _items[idleCatId].Task = "Hauling";
+            }
         }
 
         public void AssignToSmelt(string catId)
         {
-
+            if (catId != null)
+            {
+                _items[catId].Task = "Smelting";
+            }
+            else
+            {
+                var idleCatId = GetIdleCatId();
+                if (idleCatId != null)
+                    _items[idleCatId].Task = "Smelting";
+            }
         }
-
-
 
         public JsonNode Save() => ToSave();
     }

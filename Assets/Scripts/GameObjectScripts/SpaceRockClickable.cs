@@ -7,12 +7,17 @@ public class SpaceRockClickable : MonoBehaviour
 {
     void Update()
     {
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        if (Camera.main != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
             Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
             if (GetComponent<Collider2D>().OverlapPoint(worldPoint))
                 OnClicked();
         }
+    }
+
+    void OnMouseEnter()
+    {
+        
     }
 
     private void OnClicked()

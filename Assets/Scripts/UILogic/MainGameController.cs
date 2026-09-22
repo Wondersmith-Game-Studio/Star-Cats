@@ -50,7 +50,8 @@ public class MainGameController : MonoBehaviour
 
     void OnDisable()
     {
-        CurrencyManager.Instance.OnChanged -= OnCurrencyChanged;
+        if (CurrencyManager.Instance != null)
+            CurrencyManager.Instance.OnChanged -= OnCurrencyChanged;
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////

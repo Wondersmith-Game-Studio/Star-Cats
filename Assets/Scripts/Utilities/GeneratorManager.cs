@@ -13,10 +13,10 @@ public class GeneratorManager : DataManager<Generator>
         Instance = this;
     }
 
-    public void InitializeCurrencyManager(JsonObject Data)
+    public void InitializeGeneratorManager(JsonObject Data)
     {
         BuildFromSave(Data?["Generators"]);
 
-        Debug.Log("CurrencyManager Initialized (CurrencyManager.InitializeCurrencyManager");
+        Debug.Log("GeneratorManager Initialized (CurrencyManager.InitializeCurrencyManager");
     }
 }

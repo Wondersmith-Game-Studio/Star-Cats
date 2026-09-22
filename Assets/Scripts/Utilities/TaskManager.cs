@@ -1,4 +1,5 @@
 //THIS WILL BE THE SCRIPT TO MANAGE THE TASKS
+//TASKS SHALL BE NAMED WITH "ING" AT THE END (EG: MINING, HAULING, SMELTING)
 using UnityEngine;
 using Assets.Scripts.Utilities;
 using System.Text.Json.Nodes;
@@ -14,12 +15,7 @@ public class TaskManager : DataManager<CatTask>
 
         public void InitializeTaskManager(JsonObject Data)
         {
-            BuildFromSave(Data?["Tasks"]);
-        }
-
-        public void CreateMineTask()
-        {
-
+            BuildFromSave(Data?["CatTasks"]);
         }
 
         public JsonNode Save() => ToSave();

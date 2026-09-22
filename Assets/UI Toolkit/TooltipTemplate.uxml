@@ -1,0 +1,7 @@
+<!--TO CREATE TOOLTIP FOR GAMEOBJECTS:
+SELECT GAMEOBJECT IN UNITY EDITOR, ADD COMPONENT -> HOVER TOOLTIP-->
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="TooltipRoot" class="Tooltip">
+        <ui:Label name="TooltipLabel" text="Tooltip text" />
+    </ui:VisualElement>
+</ui:uxml>

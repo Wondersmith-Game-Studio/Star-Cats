@@ -25,8 +25,15 @@ public class MainMenuController : MonoBehaviour
     #pragma warning disable CS0649
     [SerializeField] private GameObject _mainMenuScreen;
     [SerializeField] private GameObject _mainGameScreen;
+    [SerializeField] private GameObject _mainCamera;
     #pragma warning disable CS0649
 
+    void Awake()
+    {
+        _mainCamera.SetActive(false);
+    }
+    //////////////////////////////////////////////////////////////////////////////////////////
+    ///MAKE SURE TO ADD ANY AND ALL MANAGER INITIALIZER FUNCTIONS INTO THIS FUNCTION
     //////////////////////////////////////////////////////////////////////////////////////////
 
     private void InitializeManagers(System.Text.Json.Nodes.JsonObject Data)
@@ -34,10 +41,12 @@ public class MainMenuController : MonoBehaviour
         Debug.Log("InitializingManagers...");
 
         CurrencyManager.Instance.InitializeCurrencyManager(Data);
-        //GENERATORMANAGER
-        //UPGRADEMANAGER
+        GeneratorManager.Instance.InitializeGeneratorManager(Data);
+        CatManager.Instance.InitializeCatManager(Data);
+        TaskManager.Instance.InitializeTaskManager(Data);
+        UpgradeManager.Instance.InitializeUpgradeManager(Data);
+        StationManager.Instance.InitializeStationManager(Data);
         //YOURMOMMANAGER
-        //TO BE ADDED 8/30/2026
     }
     
     private void SwapToGameScreen()
@@ -46,6 +55,7 @@ public class MainMenuController : MonoBehaviour
         
         _mainMenuScreen.SetActive(false);
         _mainGameScreen.SetActive(true);
+        _mainCamera.SetActive(true);
     }
     //////////////////////////////////////////////////////////////////////////////////////////
     void OnEnable()

@@ -7,6 +7,8 @@ using System.Linq;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using System.Data;
+using Unity.InferenceEngine;
+using Unity.VisualScripting;
 
 /////////////////////////////////////////////////////////////////////
 //INTERFACE TO CALL TO ENSURE IT HAS AN ID OR COMPILER THROWS ERROR
@@ -52,8 +54,19 @@ public class Cat : IHasId
 
 public class CatTask : IHasId
 {
+    //TASKS SHALL BE NAMED WITH "ING" AT THE END (EG: MINING, HAULING, SMELTING)
     public string Id { get; set; }
-    public string Name { get; set; }
+    public string Quantity { get; set; }
+    public float X { get; set; }
+    public float Y { get; set; }
+}
+
+public class Station : IHasId
+{
+    public string Id { get; set; }
+    public string TaskId { get; set; }
+    public float X { get; set; }
+    public float Y { get; set; }
 }
 
 ////////////////////////////////////////////////////////////////////
