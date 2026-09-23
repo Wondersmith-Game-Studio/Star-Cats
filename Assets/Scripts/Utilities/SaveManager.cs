@@ -74,6 +74,25 @@ namespace Assets.Scripts.Utilities
         }
 
         /////////////////////////////////////////////////////////////////////
+        //RETRIES A FILE OPERATION A FEW TIMES BEFORE GIVING UP - GUARDS AGAINST TRANSIENT LOCKS
+        //(EG: A CLOUD SYNC CLIENT LIKE NEXTCLOUD BRIEFLY LOCKING THE FILE WHILE IT SYNCS)
+        private static void RetryOnIOException(Action action, int maxAttempts = 5, int delayMs = 150)
+        {
+            for (int attempt = 1; attempt <= maxAttempts; attempt++)
+            {
+                try
+                {
+                    action();
+                    return;
+                }
+                catch (IOException) when (attempt < maxAttempts)
+                {
+                    System.Threading.Thread.Sleep(delayMs);
+                }
+            }
+        }
+
+        /////////////////////////////////////////////////////////////////////
         public static void CreateNewSave(string selectedFile, Action<bool> onComplete = null
         #if UNITY_ANDROID && !UNITY_EDITOR
         , MonoBehaviour runner = null
@@ -95,7 +114,7 @@ namespace Assets.Scripts.Utilities
                 try
                 {
                     string sourcePath = GetTemplatePath("SaveData.json");
-                    File.Copy(sourcePath, destinationPath, overwrite: true);
+                    RetryOnIOException(() => File.Copy(sourcePath, destinationPath, overwrite: true));
                     onComplete?.Invoke(true);
                 }
                 catch (Exception ex)
@@ -147,7 +166,7 @@ namespace Assets.Scripts.Utilities
             //END JSON VARIABLE DEFINITION//
 
             //WRITE JSONOBJECT DATA TO SAVEFILE PATH
-            File.WriteAllText(path, json);
+            RetryOnIOException(() => File.WriteAllText(path, json));
 
             #if UNITY_5_3_OR_NEWER
                 Debug.Log($"Saved to: {path}");
@@ -168,7 +187,8 @@ namespace Assets.Scripts.Utilities
 
             //JSON VARIABLE DEFINITION
             //CONSISTS OF THE CONTENTS OF THE SAVEDATA FILE
-            string json = File.ReadAllText(path);
+            string json = null;
+            RetryOnIOException(() => json = File.ReadAllText(path));
             
             //PARSE CONTENTS INTO MUTABLE JSONOBJECT
             JsonObject data = JsonNode.Parse(json)?.AsObject() ?? new JsonObject();

@@ -1,7 +1,9 @@
-<!--TO CREATE TOOLTIP FOR GAMEOBJECTS:
-SELECT GAMEOBJECT IN UNITY EDITOR, ADD COMPONENT -> HOVER TOOLTIP-->
-<ui:UXML xmlns:ui="UnityEngine.UIElements">
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="TooltipTemplate.uss"/>
+    <!--TO CREATE TOOLTIP FOR GAMEOBJECTS:
+    SELECT GAMEOBJECT IN UNITY EDITOR, ADD COMPONENT -> HOVER TOOLTIP-->
     <ui:VisualElement name="TooltipRoot" class="Tooltip">
         <ui:Label name="TooltipLabel" text="Tooltip text" />
+        <ui:VisualElement name="UpgradeContainer"/>
     </ui:VisualElement>
-</ui:uxml>
+</ui:UXML>

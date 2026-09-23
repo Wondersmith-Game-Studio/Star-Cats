@@ -13,7 +13,7 @@
     ],
 
     "Upgrades": [
-        { "Id": "PowerClicks", "Value": 1, "Acquired": false, "Sprite": null }
+        { "Id": "PowerClicks", "Costs": [{"CurrencyId": "SpaceRock", "Amount": 5}], "Acquired": false, "Sprite": null }
     ],
 
     "Cats": [
@@ -26,6 +26,6 @@
     ],
 
     "Stations": [
-        {"Id": "MiningStation", "TaskId": "Mining", "X": null, "Y": null}
+        {"Id": "MiningStation", "TaskId": "Mining", "X": 0, "Y": 0}
     ]
 }

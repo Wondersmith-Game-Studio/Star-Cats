@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.InputSystem.iOS;
 using Mono.Cecil.Cil;
+using UnityEditor;
 
 public class TooltipManager : MonoBehaviour
 {
@@ -15,8 +16,10 @@ public class TooltipManager : MonoBehaviour
 
     [SerializeField] UIDocument uiDocument;
     [SerializeField] VisualTreeAsset tooltipTemplate;
+    [SerializeField] VisualTreeAsset upgradeButtonTemplate;
 
     VisualElement _tooltip;
+    VisualElement _upgrades;
     Label _label;
 
     void Awake()
@@ -24,17 +27,69 @@ public class TooltipManager : MonoBehaviour
         Instance = this;
         _tooltip = tooltipTemplate.Instantiate();
         _label = _tooltip.Q<Label>("TooltipLabel");
+        _upgrades= _tooltip.Q<VisualElement>("UpgradeContainer");
+        _tooltip.style.position = Position.Absolute;
         _tooltip.style.display = DisplayStyle.None;
+        
+    }
+
+    public void ShowUpgrades(string text, string[] upgrades, Vector2 screenPosition)
+    {
+        BuildTooltip(text, screenPosition);
+        BuildUpgradeContainer(upgrades);
+    }
+
+    public void BuildTooltip(string text, Vector2 screenPosition)
+    {
+        _label.text = text;
+
+        //CONVERT RAW SCREEN/MOUSE PIXELS INTO THE UI PANEL'S OWN LOCAL COORDINATE SPACE
+        //(THE PANEL RUNS AT A DIFFERENT SCALE THAN Screen.width/height, SO THEY ARE NOT THE SAME UNITS)
+        Vector2 panelPosition = RuntimePanelUtils.ScreenToPanel(
+            uiDocument.rootVisualElement.panel,
+            new Vector2(screenPosition.x, Screen.height - screenPosition.y));
+
+        _tooltip.style.left = panelPosition.x;
+        _tooltip.style.top = panelPosition.y;
+        _tooltip.style.display = DisplayStyle.Flex;
+
         uiDocument.rootVisualElement.Add(_tooltip);
     }
 
-    public void Show(string text, Vector2 screenPosition)
+    public void BuildUpgradeContainer(string[] upgrades)
+        {
+            _upgrades?.Clear();
+
+            foreach (string id in upgrades)
+            {
+                Upgrade upgrade = UpgradeManager.Instance.Get(id);
+                if (upgrade == null || upgrade.Acquired) continue;
+
+                VisualElement row = upgradeButtonTemplate.Instantiate();
+                Button button = row.Q<Button>("UpgradeButtonButton");
+                button.text = $"{upgrade.Id}\n{BuildCostText(upgrade.Costs)}";
+                button.clicked += () =>
+                {
+                    UpgradeManager.Instance.PurchaseUpgrade(upgrade);
+                    BuildUpgradeContainer(upgrades);
+                };
+                _upgrades.Add(row);
+            }
+        }
+
+private string BuildCostText(Cost[] costs)
+{
+    string text = "";
+
+    for (int i = 0; i < costs.Length; i++)
     {
-        _label.text = text;
-        _tooltip.style.left = screenPosition.x;
-        _tooltip.style.top = screenPosition.y;
-        _tooltip.style.display = DisplayStyle.Flex;
+        text += $"{costs[i].Amount} {costs[i].CurrencyId}";
+        if (i < costs.Length - 1)
+            text += ", ";
     }
+
+    return text;
+}
 
     public void Hide() => _tooltip.style.display = DisplayStyle.None;
 }

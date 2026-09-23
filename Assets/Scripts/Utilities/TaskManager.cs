@@ -6,17 +6,17 @@ using System.Text.Json.Nodes;
 using System.Collections.Generic;
 
 public class TaskManager : DataManager<CatTask>
+{
+    public static TaskManager Instance { get; private set; }
+        
+    [SerializeField] Transform SpaceRockMineSpot;
+        
+    void Awake() => Instance = this;
+
+    public void InitializeTaskManager(JsonObject Data)
     {
-        public static TaskManager Instance { get; private set; }
-        
-        [SerializeField] Transform SpaceRockMineSpot;
-        
-        void Awake() => Instance = this;
-
-        public void InitializeTaskManager(JsonObject Data)
-        {
             BuildFromSave(Data?["CatTasks"]);
-        }
-
-        public JsonNode Save() => ToSave();
     }
+
+    public JsonNode Save() => ToSave();
+}

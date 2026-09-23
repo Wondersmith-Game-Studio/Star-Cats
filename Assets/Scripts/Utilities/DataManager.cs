@@ -37,10 +37,16 @@ public class Generator: IHasId
     public string Sprite { get; set; }
 }
 
+public class Cost
+{
+    public string CurrencyId { get; set; }
+    public int Amount { get; set; }
+}
+
 public class Upgrade: IHasId
 {
     public string Id { get; set; }
-    public int Value { get; set; }
+    public Cost[] Costs { get; set; }
     public bool Acquired { get; set; }
     
     public string Sprite { get; set; }
@@ -56,7 +62,7 @@ public class CatTask : IHasId
 {
     //TASKS SHALL BE NAMED WITH "ING" AT THE END (EG: MINING, HAULING, SMELTING)
     public string Id { get; set; }
-    public string Quantity { get; set; }
+    public int Quantity { get; set; }
     public float X { get; set; }
     public float Y { get; set; }
 }

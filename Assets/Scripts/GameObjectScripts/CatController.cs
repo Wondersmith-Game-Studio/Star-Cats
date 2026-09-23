@@ -11,7 +11,7 @@ public class CatController : MonoBehaviour
     enum State { Idle, MovingToTask, Task }
     State _state;
 
-    public void Bind(Cat data, Transform mineSpot) //{store reds, set _state based on data.IsMining}
+    public void Bind(Cat cat, Transform taskSpot) //{store reds, set _state based on data.IsMining}
     {
 
     }

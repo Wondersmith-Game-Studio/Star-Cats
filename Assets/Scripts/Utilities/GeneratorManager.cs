@@ -19,4 +19,6 @@ public class GeneratorManager : DataManager<Generator>
 
         Debug.Log("GeneratorManager Initialized (CurrencyManager.InitializeCurrencyManager");
     }
+
+    public JsonNode Save() => ToSave();
 }

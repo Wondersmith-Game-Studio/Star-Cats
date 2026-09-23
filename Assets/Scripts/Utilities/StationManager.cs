@@ -43,4 +43,6 @@ public class StationManager : DataManager<Station>
         station.Y = position.y;
         RaiseChanged(stationId);
     }
+    
+    public JsonNode Save() => ToSave();
 }

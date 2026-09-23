@@ -21,7 +21,7 @@ public class CatManager : DataManager<Cat>
 
         public void InitializeCatManager(JsonObject Data)
         {
-            int quantity = (int)(Data?["Cats"]?["Quantity"] ?? 0);
+            int quantity = (int)(Data?["Cats"]?[0]?["Quantity"] ?? 0);
 
             var cats = new List<Cat>();
             for (int i = 0; i < quantity; i++, this.Quantity = i)
@@ -49,7 +49,7 @@ public class CatManager : DataManager<Cat>
             return null;
         }
 
-        public void AssignToMine(string? catId)
+        public void AssignToMine(string catId)
         {
             if (catId != null)
             {
@@ -63,7 +63,7 @@ public class CatManager : DataManager<Cat>
             }
         }
 
-        public void AssignToHaul(string? catId)
+        public void AssignToHaul(string catId)
         {
             if (catId != null)
             {
