@@ -13,7 +13,7 @@
     ],
 
     "Upgrades": [
-        { "Id": "PowerClicks", "Costs": [{"CurrencyId": "SpaceRock", "Amount": 5}], "Acquired": false, "Sprite": null }
+        { "Id": "PowerClicks", "Costs": [{"CurrencyId": "SpaceRock", "Amount": 5}], "Effects": [{"TargetType" : "Currency", "TargetId": "SpaceRock", "Value": 1, "Operation": "Add"}], "Acquired": false, "Sprite": null }
     ],
 
     "Cats": [

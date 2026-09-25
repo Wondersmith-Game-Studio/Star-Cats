@@ -28,6 +28,10 @@ public class UpgradeManager : DataManager<Upgrade>
         foreach (var cost in upgrade.Costs)
             CurrencyManager.Instance.TrySpend(cost.CurrencyId, cost.Amount);
 
+        if (upgrade.Effects != null)
+            foreach (var effect in upgrade.Effects)
+                EffectRegistry.Apply(effect);
+
         upgrade.Acquired = true;
     }
 

@@ -18,8 +18,15 @@ public interface IHasId
 }
 
 /////////////////////////////////////////////////////////////////////
+//INTERFACE FOR ANYTHING AN UPGRADE EFFECT CAN TARGET (CURRENCIES, GENERATORS, ETC.)
+public interface IHasValue
+{
+    double Value { get; set; }
+}
+
+/////////////////////////////////////////////////////////////////////
 //PUBLIC CURRENCY CLASS, ENSURES THERE'S AN ID
-public class Currency: IHasId
+public class Currency: IHasId, IHasValue
 {
     public string Id { get; set; }
     public double Amount { get; set; }
@@ -28,11 +35,11 @@ public class Currency: IHasId
     public string Sprite { get; set; }
 }
 
-public class Generator: IHasId
+public class Generator: IHasId, IHasValue
 {
     public string Id { get; set; }
     public int Amount { get; set; }
-    public int Value { get; set; }
+    public double Value { get; set; }
 
     public string Sprite { get; set; }
 }
@@ -43,12 +50,31 @@ public class Cost
     public int Amount { get; set; }
 }
 
+//DESCRIBES ONE THING AN UPGRADE DOES WHEN PURCHASED (EG: ADD 1 TO SPACEROCK'S VALUE)
+//TARGETTYPE PICKS WHICH MANAGER TO LOOK IN ("Currency", "Generator"), TARGETID IS THAT ITEM'S ID
+//OR "All" TO APPLY TO EVERY ITEM OF TARGETTYPE. OPERATION SELECTS THE HANDLER IN EFFECTREGISTRY.
+public class Effect
+{
+    //CLASS (CAN BE ALL)
+    public string TargetType { get; set; }
+
+    //ID
+    public string TargetId { get; set; }
+    
+    //NUMBER USED BY OPERATION
+    public double Value { get; set; }
+    
+    //THE TYPE OF OPERATION (ADD, SUBTRACT, MULTIPLY)
+    public string Operation { get; set; }
+}
+
 public class Upgrade: IHasId
 {
     public string Id { get; set; }
     public Cost[] Costs { get; set; }
+    public Effect[] Effects { get; set; }
     public bool Acquired { get; set; }
-    
+
     public string Sprite { get; set; }
 }
 

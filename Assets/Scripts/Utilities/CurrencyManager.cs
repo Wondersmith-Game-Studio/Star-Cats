@@ -29,7 +29,7 @@ public class CurrencyManager : DataManager<Currency>
     public void Add(string id)
     {
         if (!_items.TryGetValue(id, out var c)) return;
-        c.Amount += 1;
+        c.Amount += c.Value;
         RaiseChanged(id);
     }
 

@@ -15,11 +15,6 @@ public class SpaceRockClickable : MonoBehaviour
         }
     }
 
-    void OnMouseEnter()
-    {
-        
-    }
-
     private void OnClicked()
     {
         CurrencyManager.Instance.Add("SpaceRock");
