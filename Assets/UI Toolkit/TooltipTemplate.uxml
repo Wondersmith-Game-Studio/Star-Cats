@@ -1,9 +1,7 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Style src="TooltipTemplate.uss"/>
-    <!--TO CREATE TOOLTIP FOR GAMEOBJECTS:
-    SELECT GAMEOBJECT IN UNITY EDITOR, ADD COMPONENT -> HOVER TOOLTIP-->
+    <Style src="project://database/Assets/UI%20Toolkit/TooltipTemplate.uss?fileID=7433441132597879392&amp;guid=29e5652def27be44da280d76ad3917ee&amp;type=3#TooltipTemplate"/>
     <ui:VisualElement name="TooltipRoot" class="Tooltip">
-        <ui:Label name="TooltipLabel" text="Tooltip text" />
+        <ui:Label name="TooltipLabel" text="Tooltip text"/>
         <ui:VisualElement name="UpgradeContainer"/>
     </ui:VisualElement>
 </ui:UXML>

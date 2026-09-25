@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Assets.Scripts.Utilities;
+using UnityEngine.UIElements;
 
 public class HoverTooltip : MonoBehaviour
 {
@@ -14,10 +15,12 @@ public class HoverTooltip : MonoBehaviour
 
         Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         bool isOver = GetComponent<Collider2D>().OverlapPoint(worldPoint);
+        
 
         if (isOver && !_hovering)
             TooltipManager.Instance.ShowUpgrades(TooltipText, AvailableUpgradeIds, Mouse.current.position.ReadValue());
-        else if (!isOver && _hovering)
+
+        else if (!isOver && _hovering && !TooltipManager.Instance.IsPointerOverTooltip)
             TooltipManager.Instance.Hide();
 
         _hovering = isOver;
